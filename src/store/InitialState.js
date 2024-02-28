@@ -12,6 +12,12 @@ export default {
                 Name:""
             }
         ],
+        groupByStudent: [
+            {
+                id:0,
+                Name:""
+            }
+        ],
         idSelectedGroup: 0
     },
     student:{
@@ -134,6 +140,15 @@ export default {
                Score: ""
             }
         ]
+    },
+    auth: {
+        currentUser: {
+            id:-1,
+            email: '',
+            password: '',
+            FIO: '',
+            role: ''
+        }
     }
     
 };

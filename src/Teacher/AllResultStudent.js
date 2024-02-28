@@ -1,17 +1,12 @@
 import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
-import Container from '@mui/material/Container';
-import TopBar from './Details/TopBar.js';
+import TopBar from '../Details/TopBar.js';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Link } from "react-router-dom";
 
-import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
@@ -21,13 +16,12 @@ import { MuiFileInput } from 'mui-file-input';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect }from 'react';
-import { useParams } from 'react-router-dom';
 
-import { fetchResultList } from './store/result/actions';
-import { fetchTeamList } from './store/team/actions';
-import { fetchEventList } from './store/event/actions';
-import { fetchResulTeachertList } from './store/teacher/actions';
-import { addNewResult } from './store/result/actions';
+import { fetchResultList } from '../store/result/actions.js';
+import { fetchTeamList } from '../store/team/actions.js';
+import { fetchEventList } from '../store/event/actions.js';
+import { fetchResulTeachertList } from '../store/teacher/actions.js';
+import { addNewResult } from '../store/result/actions.js';
 
 
 

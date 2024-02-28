@@ -16,17 +16,17 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
-import TopBar from './Details/TopBar.js';
+import TopBar from '../Details/TopBar.js';
 
 import { useStore } from 'react-redux'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect }from 'react';
-import { fetchQuantumList } from './store/quantum/actions';
-import { fetchTeamList } from './store/team/actions';
-import { fetchGroupByQuantumList } from './store/group/actions';
-import { fetchStudentList } from './store/student/actions';
-import { fetchTeacherList } from './store/teacher/actions';  
-import { addNewTeam } from './store/team/actions'; 
+import { fetchQuantumList } from '../store/quantum/actions.js';
+import { fetchTeamList } from '../store/team/actions.js';
+import { fetchGroupByQuantumList } from '../store/group/actions.js';
+import { fetchStudentList } from '../store/student/actions.js';
+import { fetchTeacherList } from '../store/teacher/actions.js';  
+import { addNewTeam } from '../store/team/actions.js'; 
 
 export default function CommandList() {
   const [isShowFormNew, setisShowFormNew] = React.useState(false);

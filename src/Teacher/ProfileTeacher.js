@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TopBar from './Details/TopBar.js';
+import TopBar from '../Details/TopBar.js';
 
 export default function ProfileTeacher() {
     

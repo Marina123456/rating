@@ -1,14 +1,13 @@
 import * as React from 'react';
 
-import TopBar from './Details/TopBar.js';
+import TopBar from '../Details/TopBar.js';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchResultList } from './store/student/actions';
+import { fetchResultList } from '../store/student/actions.js';
 import { useEffect }from 'react';
 import { useParams } from 'react-router-dom';
 

@@ -1,28 +1,38 @@
 import * as React from 'react';
-import { Link } from "react-router-dom"; 
+import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
+import { login } from './store/auth/actions';
+import { useNavigate } from "react-router-dom";
+
 function Auth() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = React.useState('');
   const [pwd, setPwd] = React.useState('');
+  const currentUser = useSelector((state)=>state.auth.currentUser);
   const handleChangeEmail = (event) => {
     setEmail(event.target.value);
   };
   const handleChangePwd = (event) => {
     setPwd(event.target.value);
   };
-  const Enter = () => {
-    
+  
+  const Enter = e  => {
+    e.preventDefault();
+    dispatch(login(email, pwd));
+    if (currentUser.id!=-1){
+        navigate('/profile-teacher');
+    }
   };
     return (
       <div>
         
 
-        <form style={{width: '50%', margin: '0 auto', position: 'relative'}}>
+        <form style={{width: '50%', margin: '0 auto', position: 'relative'}} onSubmit={Enter}>
         <p>Введите данные для входа</p>
         <FormControl fullWidth>
         <TextField id="outlined-basic" label="email" variant="outlined" onChange={handleChangeEmail} value={email}/>
@@ -34,9 +44,9 @@ function Auth() {
         </FormControl>
         <br/>
         <br/>
-        <Link  to="/profile-teacher">
-        <Button variant="contained" onClick={Enter}>Войти</Button>
-        </Link>
+        
+        <Button variant="contained" type="submit" >Войти</Button>
+        
         </form>
         
       </div>

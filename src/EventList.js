@@ -2,12 +2,8 @@ import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
-import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
 
 import TextField from '@mui/material/TextField';
@@ -26,7 +22,6 @@ import TopBar from './Details/TopBar.js';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect }from 'react';
-import { useParams } from 'react-router-dom';
 
 import { fetchEventList } from './store/event/actions';
 import { addNewEvent } from './store/event/actions';

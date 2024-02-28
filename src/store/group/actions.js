@@ -29,6 +29,19 @@ export function fetchGroupByQuantumList(idQuantum) {
  
    }
  }
+ export function fetchGroupListStudent(idStudent){
+    return async function fetchGroupByStudentThunk (dispatch, getState) {
+        const route  = `${host}/listgroup/index.php?id_student='${idStudent}'`;
+        console.log(route);
+        let response = await fetch(route);
+            response = await response.json();
+  
+        let new_result = response.filter(x => x);
+        
+        return dispatch({ type: types.FETCH_BY_QUANTUM, groupByStudent: new_result });//response
+  
+    }
+ }
 
 
 

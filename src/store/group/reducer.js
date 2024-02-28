@@ -19,7 +19,16 @@ export default function reduce(state = {}, action = {}) {
   
                      });
           }
-          return state;                   
+          return state;
+      case types.FETCH_BY_STUDENT:
+            if (action.groupByStudent) {
+             
+              return Object.assign({}, state, {
+                groupByStudent: action.groupByStudent
+    
+                       });
+            }
+            return state;                    
       default:
         return state;
       }

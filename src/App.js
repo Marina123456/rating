@@ -1,14 +1,15 @@
-import logo from './logo.svg';
-import './App.css';
 import Auth from './Auth.js';
-import ResultStudent from './ResultStudent.js';
-import Group from './Group.js';
-import GroupList from './GroupList.js';
-import CommandList from './CommandList.js';
-import ProfileTeacher from './ProfileTeacher.js';
+import ResultStudent from './Teacher/ResultStudent.js';
+import Group from './Teacher/Group.js';
+import GroupList from './Teacher/GroupList.js';
+import AllResultStudent from './Teacher/AllResultStudent.js';
+//учитель
+import CommandList from './Teacher/CommandList.js';
+import ProfileTeacher from './Teacher/ProfileTeacher.js';
 import EventList from './EventList.js';
-import AllResultStudent from './AllResultStudent.js';
-import Statistics from './Statistics.js';
+import Statistics from './Teacher/Statistics.js';
+//ученик
+import StudentGroups from './Student/StudentGroups.js';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 //itkvsite
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path='/event-list' element={<EventList/>} />
         <Route path='/all-result-student' element={<AllResultStudent/>} />
         <Route path='/statistics' element={<Statistics/>} />
+        <Route path='/student-groups' element={<StudentGroups/>} />
     </Routes >
  </Router>
   );

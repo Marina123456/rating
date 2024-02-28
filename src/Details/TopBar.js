@@ -1,5 +1,5 @@
 import * as React from 'react';
-import '../App.css';
+import {  useSelector } from 'react-redux';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,30 +10,33 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import ListSubheader from '@mui/material/ListSubheader';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Collapse from '@mui/material/Collapse';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
-import ExpandLess from '@mui/icons-material/ExpandLess';
-import ExpandMore from '@mui/icons-material/ExpandMore';
-import StarBorder from '@mui/icons-material/StarBorder';
-
-import EqualizerIcon from '@mui/icons-material/Equalizer';
-import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import GroupsIcon from '@mui/icons-material/Groups';
-import PeopleIcon from '@mui/icons-material/People';
+import MenuTeacher from './MenuTeacher';
+import MenuManager from './MenuManager';
+import MenuStudent from './MenuStudent';
 
 import { Link } from "react-router-dom"; 
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import {  grey,purple } from '@mui/material/colors';
 
 export default function TopBar() {
+    const currentUser = useSelector((state)=>state.auth.currentUser);
+    const [title, setTitle] = React.useState('');
+    React.useEffect(() => {
+      console.log(currentUser);
+      switch(currentUser.role) {
+        case 'teacher': 
+          setTitle('Педагог');
+          break;      
+        case 'student':  
+          setTitle('Учащийся');
+          break;
+        case 'manager':  
+          setTitle('Руководитель');
+          break;
+        default:
+          setTitle('');
+      }
+      }, []);
     const theme = createTheme({
         palette: {
           primary: {
@@ -54,22 +57,10 @@ export default function TopBar() {
             }
         }
       });
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-  
-    const handleChange = (event) => {
-      setAuth(event.target.checked);
-    };
-  
+    const [anchorEl, setAnchorEl] = React.useState(null); 
     const handleMenu = (event) => {
       setAnchorEl(event.currentTarget);
-    };
-  
+    };  
     const handleClose = () => {
       setAnchorEl(null);
     };
@@ -90,9 +81,9 @@ export default function TopBar() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Личный кабинет педагога
+            {currentUser.id!=-1 ? title+' - '+currentUser.FIO : ''}
             </Typography>
-            {auth && (
+            { (
               <div>
                 <IconButton
                   size="large"
@@ -127,61 +118,9 @@ export default function TopBar() {
           </Toolbar>
         </AppBar>
         </ThemeProvider>
-        <List
-      sx={{ width: '100%', height:'100%',maxWidth: 250, bgcolor: 'background.paper', position: 'absolute', top:'80px' }}
-      component="nav"
-      aria-labelledby="nested-list-subheader"
-      subheader={
-        <ListSubheader component="div" id="nested-list-subheader">
-          Основные операции
-        </ListSubheader>
-      }
-    ><Link  to="/group-list">
-      <ListItemButton>
-        <ListItemIcon>
-          <GroupsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Группы" />
-      </ListItemButton>
-      </Link>
-      <Link  to="/command-list">
-      <ListItemButton>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Комманды" />
-        
-      </ListItemButton>
-      </Link>
-      <Link  to="/event-list">
-      <ListItemButton>
-        <ListItemIcon>
-          <EventNoteIcon />
-        </ListItemIcon>
-        <ListItemText primary="Мероприятия" />
-       
-      </ListItemButton>
-      </Link>
-     
-      <Link  to="/all-result-student">
-      <ListItemButton>
-        <ListItemIcon>
-          <EmojiEventsIcon />
-        </ListItemIcon>
-        <ListItemText primary="Результаты" />
-        
-      </ListItemButton>
-      </Link>
-      <Link  to="/statistics">
-      <ListItemButton>
-        <ListItemIcon>
-          <EqualizerIcon />
-        </ListItemIcon>
-        <ListItemText primary="Статистика" />
-        
-      </ListItemButton>
-      </Link>
-    </List>
+        {(currentUser.role=='teacher') ? <MenuTeacher/>:''}
+        {(currentUser.role=='manager') ? <MenuManager/>:''}
+        {(currentUser.role=='student') ? <MenuStudent/>:''}
       </Box>
     );
   }

@@ -2,17 +2,14 @@ import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
 import { Link } from "react-router-dom"; 
 
-import TopBar from './Details/TopBar.js';
+import TopBar from '../Details/TopBar.js';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchStudentList } from './store/student/actions';
+import { fetchStudentList } from '../store/student/actions.js';
 import { useEffect }from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -40,7 +37,7 @@ export default function Group() {
       
       <div style={{ height: 400, width: '70%', marginLeft:'330px', position: 'relative' }}>
       <br/>
-      <div>Наименование группы: ПМ 7</div>
+      
       <div>Количество учеников: {rows.length}</div>
       
       <div>Список:</div>

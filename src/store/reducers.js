@@ -9,6 +9,7 @@ import resultReducer from './result/reducer';
 import teamReducer from './team/reducer';
 import quantumReducer from './quantum/reducer';
 import teacherReducer from './teacher/reducer';
+import authReducer from './auth/reducer';
 
 let reduce = combineReducers({group: groupReducer, 
     event: eventReducer, 
@@ -19,6 +20,7 @@ let reduce = combineReducers({group: groupReducer,
     result: resultReducer, 
     team: teamReducer, 
     quantum: quantumReducer,
-    teacher: teacherReducer
+    teacher: teacherReducer,
+    auth: authReducer
 });
 export default reduce;

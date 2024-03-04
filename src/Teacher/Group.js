@@ -29,7 +29,7 @@ export default function Group() {
   const { idGroup } = useParams();
   useEffect(() => {
      dispatch(fetchStudentList(idGroup));
-  
+     
      }, []);
   return (
     <div>

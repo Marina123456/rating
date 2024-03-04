@@ -22,7 +22,15 @@ export default function reduce(state = {}, action = {}) {
           }
           return state;
         
-          
+        case types.UPLOAD_FILE:
+          if (action.resultUploadFile) {
+           
+            return Object.assign({}, state, {
+              resultUploadFile: action.resultUploadFile
+  
+                     });
+          }
+          return state;
                    
       default:
         return state;

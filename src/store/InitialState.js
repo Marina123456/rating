@@ -43,7 +43,15 @@ export default {
                 result : ""
 
             }
-        ]
+        ],
+        currentStudent:{
+            id:0, 
+            fio:"", 
+            dataBrth:"", 
+            age:0, 
+            scores:0,  
+            rating:0
+        }
        
     },
     event: {

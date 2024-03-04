@@ -62,7 +62,7 @@ export default function GroupList() {
                 {row.Name}
                 </Link>
                 </TableCell>
-              <TableCell align="right">10</TableCell>
+              <TableCell align="right">{row.count_member}</TableCell>
               
             </TableRow>
           ))}

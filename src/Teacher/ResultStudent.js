@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchResultList } from '../store/student/actions.js';
+import { fetchResultList, selectCurrentStudent } from '../store/student/actions.js';
 import { useEffect }from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -34,9 +34,12 @@ export default function ResultStudent() {
   const dispatch = useDispatch();
   console.log(useSelector((state)=>state));
   const rows =useSelector(state=>state.student.List_result);
+  const currentStudent =useSelector(state=>state.student.currentStudent);
   const { id_student } = useParams();
   
   useEffect(() => {
+    
+    dispatch(selectCurrentStudent(id_student));
      dispatch(fetchResultList(id_student));
     
      }, []);
@@ -49,7 +52,7 @@ export default function ResultStudent() {
       
       <div style={{ height: 400, width: '70%', marginLeft:'330px', position: 'relative' }}>
       <br/>
-      <div>Обучающийся: Крутикова Анфиса Викторовна</div>
+      <div>Обучающийся: {currentStudent.fio}</div>
       <div>Общий балл: 5</div>
       <div>Место в рейтинге: 1</div>
       <div>Детализация:</div>
@@ -81,7 +84,7 @@ export default function ResultStudent() {
               <TableCell align="right">{row.Score}</TableCell>
               <TableCell align="right">{row.Status}</TableCell>
               <TableCell align="right">{row.Type}</TableCell>
-              <TableCell align="right"><img width="80px" src={"../docs/"+row.pathToDocument}/></TableCell>
+              <TableCell align="right"><img width="80px" src={"https://vrar29.xyz/rating/api/_uploads/"+row.pathToDocument}/></TableCell>
               <TableCell align="right">{row.result}</TableCell>
             </TableRow>
           ))}

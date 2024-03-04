@@ -15,21 +15,48 @@ export function fetchResultList() {
 
   }
 }
+export function addNewFile(newFile) {
+  return async function addNewFileThunk (dispatch, getState) {
+     const route  = `${host}/result/index.php`;
+     let resultAdd ="NO";
+     console.log(JSON.stringify(newFile));
+     
+    try{
+    let response = await fetch(route, {
+      method: 'POST',
+      mode: 'cors',
+      
+      body: newFile
+    });
+    
+    resultAdd = await response.text();
+    
+   // resultAdd = await response.json();
+    console.log(resultAdd);
+  } catch (err) {
+    console.error(err);
+  }
+     
+     
+     return dispatch({ type: types.UPLOAD_FILE, resultUploadFile: resultAdd });//response
+
+ }
+}
+
 export function addNewResult(newResult) {
     return async function addNewResultThunk (dispatch, getState) {
        const route  = `${host}/result/index.php`;
        let resultAdd ="NO";
        console.log(JSON.stringify(newResult));
+       
       try{
       let response = await fetch(route, {
         method: 'POST',
         mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
+        
         body: JSON.stringify(newResult)
       });
-      console.log("раб");
+      
       resultAdd = await response.text();
       
      // resultAdd = await response.json();

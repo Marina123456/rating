@@ -21,6 +21,7 @@ import { fetchResultList } from '../store/result/actions.js';
 import { fetchTeamList } from '../store/team/actions.js';
 import { fetchEventList } from '../store/event/actions.js';
 import { fetchResulTeachertList } from '../store/teacher/actions.js';
+import { addNewFile } from '../store/result/actions.js';
 import { addNewResult } from '../store/result/actions.js';
 
 
@@ -57,8 +58,10 @@ export default function AllResultStudent() {
       }, []);
       
  
-  const handleChangeDoc = (newValue) => {
-    setPathToDocumentNew(newValue)
+  const handleChangeDoc = (file) => {
+    if (file) {
+    setPathToDocumentNew(file)
+    }
   }
     
   const handleChangeEvent = (event) => {
@@ -74,8 +77,15 @@ export default function AllResultStudent() {
     let objNew = {
       id_event:eventNew,
       id_team:teamNew,
-      id_result:resultNew
+      id_result:resultNew,
+      pathToDocument: pathToDocumentNew.name
     }
+
+    let data = new FormData();
+    data.append('pathToDocumentNew', pathToDocumentNew);
+   
+    console.log(objNew);
+    dispatch(addNewFile(data));
     dispatch(addNewResult(objNew));
   }
   return (
@@ -87,10 +97,66 @@ export default function AllResultStudent() {
       
       <br/>
       <Button variant="contained" onClick={()=>{if (isShowFormNew) setisShowFormNew(false); else setisShowFormNew(true);}}>Добавить новый результат</Button>
+      <Button variant="contained" onClick={()=>{if (isShowFormNew) setisShowFormNew(false); else setisShowFormNew(true);}}>Сканировать диплом</Button>
       <br/>
       <br/>
       <form style={{display: (isShowFormNew)?'block':'none'}}>
         <p>Добавление нового результата</p>
+        <FormControl fullWidth>
+            <InputLabel id="eventLabel">Мероприятие</InputLabel>
+            <Select
+            labelId="eventLabel"
+            id="eventLabelSelect"
+            value={eventNew}
+            label="Мероприятие"
+            onChange={handleChangeEvent}
+            >
+            {eventList.map((event)=><MenuItem value={event.id}>{event.Name}</MenuItem>)}
+            </Select>
+        </FormControl>
+       
+        <br/>
+        <br/>
+        <FormControl fullWidth>
+            <InputLabel id="teamLabel">Команда</InputLabel>
+            <Select
+            labelId="teamLabel"
+            id="teamLabelSelect"
+            value={teamNew}
+            label="Команда"
+            onChange={handleChangeTeam}
+            >
+            {teamList.map((team)=>(<MenuItem value={team.id}>{team.name}</MenuItem>))}
+            </Select>
+        </FormControl>
+        <br/>
+        <br/> 
+        <FormControl fullWidth>
+            <InputLabel id="resultLabel">Результат</InputLabel>
+            <Select
+            labelId="resultLabel"
+            id="resultLabelSelect"
+            value={resultNew}
+            label="Результат"
+            onChange={handleChangeResult}>
+            
+            {resultList.map((result)=>(<MenuItem value={result.id}>{result.Name}</MenuItem>))}
+            </Select>
+        </FormControl>
+        <br/>
+        <br/>
+        <InputLabel id="pathToDocumentLabel"> Подтверждающий документ</InputLabel>
+        <FormControl fullWidth> 
+        <MuiFileInput value={pathToDocumentNew} onChange={handleChangeDoc} />
+        </FormControl>
+        <br/>
+        <br/>
+        <Button variant="contained" onClick={handleAddNewResult}>Добавить</Button>
+        <Button variant="contained" style={{marginLeft:'20px'}} onClick={()=>{if (isShowFormNew) setisShowFormNew(false); else setisShowFormNew(true);}}>Закрыть</Button>
+      </form>
+
+      <form style={{display: (isShowFormNew)?'block':'none'}}>
+        <p>Сканирование диплома</p>
         <FormControl fullWidth>
             <InputLabel id="eventLabel">Мероприятие</InputLabel>
             <Select
@@ -171,7 +237,7 @@ export default function AllResultStudent() {
                 <TableCell align="left">{row.result}</TableCell>
                 <TableCell align="left">{row.name_team}</TableCell>
                 <TableCell align="left">
-                <img src={"./docs/"+row.pathToDocument} width="100px"/>
+                <img src={"https://vrar29.xyz/rating/api/_uploads/"+row.pathToDocument} width="100px"/>
                 </TableCell>
                 <TableCell align="left">{row.Score}</TableCell>
               </TableRow>

@@ -2,13 +2,12 @@ import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import Container from '@mui/material/Container';
 import { Link } from "react-router-dom";
 import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -30,6 +29,7 @@ import { addNewTeam } from '../store/team/actions.js';
 
 export default function CommandList() {
   const [isShowFormNew, setisShowFormNew] = React.useState(false);
+  const [isIndividual, setIsIndividual] = React.useState(false);
   const [nameTeamNew, setnameTeamNew] = React.useState('');
   const emptyObj = { idQuantum: 0, idGroup: 0, idStudent:0, arrayGroup:[{id:0, Name:""}], arrayStudent:[{id:0, fio:""}] };
   const emptyObjManager = { idTeacher: 0 };
@@ -77,6 +77,23 @@ export default function CommandList() {
          
       setInputsTeacher(onChangeValue);
     };
+    const Individual = (e)=>{
+      setIsIndividual(!isIndividual);
+      let student = inputs[0]["arrayStudent"].filter((item)=>{ 
+        if (item.id_member==[inputs[0]["idStudent"]]) 
+            return item;
+       });
+      console.log(student[0]);
+      if (!isIndividual){
+        if (student.length!=0)
+          setnameTeamNew(student[0].fio);
+      } else {
+        setnameTeamNew("");
+      }
+      
+      
+      
+    }
     const handleAddTeam=()=>{
       
       let student_list=[];
@@ -113,6 +130,7 @@ export default function CommandList() {
         
         <br/>
         <br/>
+        
         <Button variant="contained" onClick={()=>setInputs([...inputs, emptyObj])}>Добавить участника команды</Button>
         <br/>
         <br/>
@@ -154,6 +172,8 @@ export default function CommandList() {
             </Select>
         </FormControl>
         <br/>
+        <FormControlLabel control={<Checkbox  checked={isIndividual} onChange={Individual}/>}  label="Индивидуальная работа" />
+        <br/> 
          <br/>         
          </div> 
         ))}

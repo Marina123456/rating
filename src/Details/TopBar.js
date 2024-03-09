@@ -13,6 +13,7 @@ import Menu from '@mui/material/Menu';
 import MenuTeacher from './MenuTeacher';
 import MenuManager from './MenuManager';
 import MenuStudent from './MenuStudent';
+import MenuAdmin from './MenuAdmin';
 
 import { Link } from "react-router-dom"; 
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
@@ -32,6 +33,9 @@ export default function TopBar() {
           break;
         case 'manager':  
           setTitle('Руководитель');
+          break;
+        case 'admin':  
+          setTitle('Администратор');
           break;
         default:
           setTitle('');
@@ -120,7 +124,8 @@ export default function TopBar() {
         </ThemeProvider>
         {(currentUser.role=='teacher') ? <MenuTeacher/>:''}
         {(currentUser.role=='manager') ? <MenuManager/>:''}
-        {(currentUser.role=='student') ? <MenuStudent/>:''}
+        {(currentUser.role=='student') ? <MenuStudent/>:''}  
+        {(currentUser.role=='admin') ? <MenuAdmin/>:''}
       </Box>
     );
   }

@@ -7,7 +7,7 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchResultList, selectCurrentStudent } from '../store/student/actions.js';
+import { fetchResultList } from '../store/student/actions.js';
 import { useEffect }from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -32,17 +32,20 @@ const columns = [
 export default function ResultStudent() {
 
   const dispatch = useDispatch();
-  console.log(useSelector((state)=>state));
-  const rows =useSelector(state=>state.student.List_result);
-  const currentStudent =useSelector(state=>state.student.currentStudent);
-  const { id_student } = useParams();
   
+  const rows =useSelector(state=>state.student.List_result);
+  //const currentStudent =useSelector(state=>state.student.currentStudent);
+  const { id_student } = useParams();
+  const sum =  rows.reduce((acc, curr) => acc + parseInt(curr.Score), 0);
+   //dispatch(selectCurrentStudent(id_student));
+   const students =useSelector(state=>state.student.studentList);
+     
+  const currentStudent = students.filter((student)=>{if (student.id==id_student) return student;})[0];
   useEffect(() => {
     
-    dispatch(selectCurrentStudent(id_student));
+   
      dispatch(fetchResultList(id_student));
-    
-     }, []);
+  },[])
     
   return (
     
@@ -53,7 +56,7 @@ export default function ResultStudent() {
       <div style={{ height: 400, width: '70%', marginLeft:'330px', position: 'relative' }}>
       <br/>
       <div>Обучающийся: {currentStudent.fio}</div>
-      <div>Общий балл: 5</div>
+      <div>Общий балл: {sum } </div>
       <div>Место в рейтинге: 1</div>
       <div>Детализация:</div>
       <br/>

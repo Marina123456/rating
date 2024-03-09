@@ -1,5 +1,4 @@
 import {types} from './actionTypes';
-import { useDispatch, useSelector } from 'react-redux';
 
 const host ='https://vrar29.xyz/rating/api';
 ///List_result/index.php?id_student=%271601158%27
@@ -21,13 +20,14 @@ function calculateAge (birthDate, otherDate) {
 export function fetchStudentList(idGroup) {
    return async function fetchStudentListThunk (dispatch, getState) {
       const route  = `${host}/liststudent/index.php?id_group=${idGroup}`;
-      console.log(route);
+      
       let response = await fetch(route);
           response = await response.json();
 
       let new_result = response.filter(x => x);
-
-      let resultWithFIO = new_result.map((item) =>{
+      let rating = 1;
+      let lastScore = -1;
+      let resultWithFIO = new_result.map((item,index) =>{
         const container = {};
 
         container["id"] = item.id_student;
@@ -38,7 +38,16 @@ export function fetchStudentList(idGroup) {
         container["dataBrth"] =temp_date.getDate().toString()+"."+temp_month+"."+temp_date.getFullYear().toString();
         container["age"] =calculateAge(temp_date,new Date());//new Date().getFullYear() - temp_date.getFullYear();
         container["scores"] = item.Rating;
-        container["rating"] = 0;
+        
+        if (index==0) {
+          lastScore=item.Rating;
+        }
+        if (lastScore!=item.Rating) {
+          rating++;
+          lastScore = item.Rating;
+        }
+        
+        container["rating"] = rating;
 
         return container;
       });
@@ -49,19 +58,12 @@ export function fetchStudentList(idGroup) {
   }
 }
 
-export function selectCurrentStudent(id_student) {
-  return async function selectCurrentStudentThunk (dispatch, getState) {
-     const students =useSelector((state)=>state.student.studentList);
-     let new_result = students.filter((student)=>{if (student.id==id_student) return student;})
-     return dispatch({ type: types.SELECT_CURRENT_STUDENT, currentStudent: new_result });//response
 
- }
-}
 
 export function fetchResultList(id_student) {
   return async function fetchResultListThunk (dispatch, getState) {
      const route  = `${host}/List_result/index.php?id_student=${id_student}`;
-     console.log(route);
+     
      let response = await fetch(route);
          response = await response.json();
 

@@ -22,15 +22,7 @@ export default function reduce(state = {}, action = {}) {
           }
           return state;
         
-          case types.SELECT_CURRENT_STUDENT:
-            if (action.currentStudent) {
-             
-              return Object.assign({}, state, {
-                currentStudent: action.currentStudent
-    
-                       });
-            }
-            return state;
+          
         
           
                    

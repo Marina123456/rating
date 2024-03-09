@@ -24,15 +24,15 @@ function Auth() {
   const Enter = e  => {
     e.preventDefault();
     dispatch(login(email, pwd));
-    if (currentUser.id!=-1){
+    //if (currentUser.id!=-1){
         navigate('/profile-teacher');
-    }
+    //}
   };
     return (
       <div>
         
 
-        <form style={{width: '50%', margin: '0 auto', position: 'relative'}} onSubmit={Enter}>
+        <form style={{width: '50%', margin: '0 auto', position: 'relative'}} >
         <p>Введите данные для входа</p>
         <FormControl fullWidth>
         <TextField id="outlined-basic" label="email" variant="outlined" onChange={handleChangeEmail} value={email}/>
@@ -45,7 +45,7 @@ function Auth() {
         <br/>
         <br/>
         
-        <Button variant="contained" type="submit" >Войти</Button>
+        <Button variant="contained" onClick={Enter} >Войти</Button>
         
         </form>
         

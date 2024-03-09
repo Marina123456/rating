@@ -8,6 +8,7 @@ import CommandList from './Teacher/CommandList.js';
 import ProfileTeacher from './Teacher/ProfileTeacher.js';
 import EventList from './EventList.js';
 import Statistics from './Teacher/Statistics.js';
+import Kriterii from './Admin/Kriterii.js';
 //ученик
 import StudentGroups from './Student/StudentGroups.js';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
@@ -17,6 +18,7 @@ function App() {
     <Router  basename={'/rating'}> 
     <Routes >
         <Route path='/' element={<Auth/>} /> 
+        <Route path='/kriterii' element={<Kriterii/>} />
         <Route path='/result-student/:id_student' element={<ResultStudent/>} />
         <Route path={'/group/:idGroup'}   element={<Group/>} />
         <Route path='/group-list' element={<GroupList/>} />

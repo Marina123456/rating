@@ -58,7 +58,46 @@ export function fetchStudentList(idGroup) {
   }
 }
 
+export function fetchStudentListAll() {
+  return async function fetchStudentListThunk (dispatch, getState) {
+     const route  = `${host}/liststudent/index.php`;
+     
+     let response = await fetch(route);
+         response = await response.json();
 
+     let new_result = response.filter(x => x);
+     let rating = 1;
+     let lastScore = -1;
+     let resultWithFIO = new_result.map((item,index) =>{
+       const container = {};
+
+       container["id"] = item.id_student;
+       container["id_member"] = item.id_member;
+       container["fio"] = item.Surname+" "+item.Name+" "+item.Patronymic;
+       let temp_date =  new Date(Date.parse(item.BirthDate));
+       let temp_month = Number(temp_date.getUTCMonth())+1;
+       container["dataBrth"] =temp_date.getDate().toString()+"."+temp_month+"."+temp_date.getFullYear().toString();
+       container["age"] =calculateAge(temp_date,new Date());//new Date().getFullYear() - temp_date.getFullYear();
+       container["scores"] = item.Rating;
+       
+       if (index==0) {
+         lastScore=item.Rating;
+       }
+       if (lastScore!=item.Rating) {
+         rating++;
+         lastScore = item.Rating;
+       }
+       
+       container["rating"] = rating;
+
+       return container;
+     });
+
+
+     return dispatch({ type: types.FETCH, studentList: resultWithFIO });//response
+
+ }
+}
 
 export function fetchResultList(id_student) {
   return async function fetchResultListThunk (dispatch, getState) {

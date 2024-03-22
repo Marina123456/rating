@@ -13,8 +13,9 @@
     "@mui/x-data-grid": "^6.16.3",
     "@mui/x-date-pickers": "^6.19.0",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "babel-jest": "^29.7.0",
+    "babel-jest-amcharts": "^0.0.2",
     "dayjs": "^1.11.10",
     "mui-file-input": "^3.0.2",
     "nostradamus": "^0.1.0",
@@ -23,6 +24,7 @@
     "react-redux": "^8.1.3",
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
+    "react-yandex-metrika": "^2.6.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "styled-components": "^6.1.8",
@@ -51,6 +53,21 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+
+  "transform": {
+    "\\.(js|jsx|ts|tsx|mjs)$": "./node_modules/babel-jest"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^14.2.1",
+    "jest": "^27.5.1",
+    "redux-mock-store": "^1.5.4"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!@fullcalendar)",
+      "/node_modules/(?!LineChart)"
     ]
   }
 }

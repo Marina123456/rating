@@ -15,17 +15,17 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 
-import TopBar from '../Details/TopBar.js';
+import TopBar from './Details/TopBar.js';
 
 import { useStore } from 'react-redux'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect }from 'react';
-import { fetchQuantumList } from '../store/quantum/actions.js';
-import { fetchTeamList } from '../store/team/actions.js';
-import { fetchGroupByQuantumList } from '../store/group/actions.js';
-import { fetchStudentList } from '../store/student/actions.js';
-import { fetchTeacherList } from '../store/teacher/actions.js';  
-import { addNewTeam } from '../store/team/actions.js'; 
+import { fetchQuantumList } from './store/quantum/actions.js';
+import { fetchTeamList } from './store/team/actions.js';
+import { fetchGroupByQuantumList } from './store/group/actions.js';
+import { fetchStudentList } from './store/student/actions.js';
+import { fetchTeacherList } from './store/teacher/actions.js';  
+import { addNewTeam } from './store/team/actions.js'; 
 
 export default function CommandList() {
   const [isShowFormNew, setisShowFormNew] = React.useState(false);
@@ -41,7 +41,7 @@ export default function CommandList() {
   const store = useStore();
   const rows = useSelector((state)=>state.team.teamList);
   const quatums = useSelector((state)=>state.quantum.quantumList);
-  const currentGroupByQuantum = useSelector((state)=>state.group.groupByQuantumList);  
+  let currentGroupByQuantum = useSelector((state)=>state.group.groupByQuantumList);  
   const currentStudentByGroup = useSelector((state)=>state.student.studentList); 
   const teacherList= useSelector((state)=>state.teacher.teacherList);   
   
@@ -51,25 +51,43 @@ export default function CommandList() {
     dispatch(fetchTeacherList());
      
     }, []);
-  const handleChangeQuantum= (event, index) => {      
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const handleChangeQuantum= async (event, index) => {      
       let onChangeValue = [...inputs];
       onChangeValue[index]["idQuantum"] = event.target.value;       
       dispatch(fetchGroupByQuantumList(event.target.value));
-      onChangeValue[index]["arrayGroup"] = currentGroupByQuantum;
-      setInputFields(onChangeValue);
+      console.log(event.target.value);
+      await sleep(500);
+      let state = store.getState();
+      console.log(state);
+      onChangeValue[index]["arrayGroup"].length = 0;
+      state.group.groupByQuantumList.map((item)=>{
+        onChangeValue[index]["arrayGroup"].push(item);
+        console.log(item);
+        
+      });
+      console.log(onChangeValue);
+      //onChangeValue[index]["arrayGroup"] = currentGroupByQuantum;
+      //setInputFields(onChangeValue);
+      setInputs(onChangeValue);
     };
-    const handleChangeGroup =(event, index) => {      
+    const handleChangeGroup =async (event, index) => {      
       let onChangeValue = [...inputs];
       onChangeValue[index]["idGroup"] = event.target.value;     
       dispatch(fetchStudentList(event.target.value));
-      onChangeValue[index]["arrayStudent"] = currentStudentByGroup;       
-      setInputFields(onChangeValue);
+      await sleep(500);
+      let state = store.getState();
+      console.log(state);
+      onChangeValue[index]["arrayStudent"] = state.student.studentList;       
+      //setInputFields(onChangeValue);
+      setInputs(onChangeValue);
     };
     const handleChangeStudent =(event, index) => {      
       let onChangeValue = [...inputs];
       onChangeValue[index]["idStudent"] = event.target.value;     
          
-      setInputFields(onChangeValue);
+      //setInputFields(onChangeValue);
+      setInputs(onChangeValue);
     };
     const handleChangeTeacher =(event, index) => {      
       let onChangeValue = [...inputsTeacher];
@@ -94,6 +112,15 @@ export default function CommandList() {
       
       
     }
+    const clearFields = () => {
+      setisShowFormNew(false);
+      setIsIndividual(false);
+      setnameTeamNew('');
+      
+      setInputs([emptyObj]);
+      setInputsTeacher([emptyObjManager]);
+      setInputFields([{id:0, FIO: ''}]);
+    }
     const handleAddTeam=()=>{
       
       let student_list=[];
@@ -111,9 +138,12 @@ export default function CommandList() {
         teacherList: inputsTeacher
       };
       dispatch(addNewTeam(newTeam));
+      clearFields();
+      dispatch(fetchTeamList());
     }
   return (
     <div>
+      
       <TopBar/>      
       <div style={{ height: 400, width: '70%', marginLeft:'330px', position: 'relative' }}>
       <br/>
@@ -134,6 +164,9 @@ export default function CommandList() {
         <Button variant="contained" onClick={()=>setInputs([...inputs, emptyObj])}>Добавить участника команды</Button>
         <br/>
         <br/>
+        <FormControlLabel control={<Checkbox  checked={isIndividual} onChange={Individual}/>}  label="Индивидуальная работа" />
+        <br/>
+        <br/>
         {inputs.map((item, index) => (
          <div>
            <FormControl style={{width:'300px'}}>
@@ -142,7 +175,7 @@ export default function CommandList() {
             labelId="quantumLabel"
             id="quantumLabelSelect"
             label="Квантум"
-            onChange={(event) => handleChangeQuantum(event, index)}
+            onChange={(event) =>{ handleChangeQuantum(event, index);}}
             >
               {quatums.map((quatum) => (<MenuItem value={quatum.id}>{quatum.Name}</MenuItem>))}
             </Select>
@@ -171,8 +204,7 @@ export default function CommandList() {
               {inputs[index]["arrayStudent"].map((student) => (<MenuItem value={student.id_member}>{student.fio}</MenuItem>))}
             </Select>
         </FormControl>
-        <br/>
-        <FormControlLabel control={<Checkbox  checked={isIndividual} onChange={Individual}/>}  label="Индивидуальная работа" />
+        
         <br/> 
          <br/>         
          </div> 
@@ -211,9 +243,9 @@ export default function CommandList() {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="right">Название команды</TableCell>
-            <TableCell align="right">Состав команды</TableCell>
-            <TableCell align="right">Руководители команды</TableCell>
+            <TableCell >Название команды</TableCell>
+            <TableCell >Состав команды</TableCell>
+            <TableCell >Руководители команды</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -236,7 +268,7 @@ export default function CommandList() {
                 </Link></p>
               ))}
                 </TableCell>
-                <TableCell align="right">
+                <TableCell>
               {row.teachers.map((teacher) => (
                 <Link to="/">
                 {teacher.fio}

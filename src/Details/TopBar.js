@@ -10,7 +10,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 
-import MenuTeacher from './MenuTeacher';
+import MenuTeacher from '../Teacher/MenuTeacher';
 import MenuManager from './MenuManager';
 import MenuStudent from './MenuStudent';
 import MenuAdmin from './MenuAdmin';

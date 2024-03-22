@@ -33,7 +33,7 @@ export default function MenuManager() {
         
       </ListItemButton>
       </Link>
-      <Link  to="/all-result-student">
+      <Link  to="/all-result">
       <ListItemButton>
         <ListItemIcon>
           <EmojiEventsIcon />

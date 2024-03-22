@@ -1,5 +1,5 @@
 import * as React from 'react';
-import TopBar from '../Details/TopBar.js';
+import TopBar from './Details/TopBar.js';
 import { LineChart } from '@mui/x-charts/LineChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 

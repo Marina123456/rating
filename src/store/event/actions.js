@@ -4,7 +4,7 @@ const host ='https://vrar29.xyz/rating/api';
 
 export function fetchEventList() {
    return async function fetchEventListThunk (dispatch, getState) {
-      const route  = `${host}/events/index.php`;
+      const route  = `${host}/events/get-index.php`;
       console.log(route);
       let response = await fetch(route,{
         mode: 'cors'
@@ -12,6 +12,7 @@ export function fetchEventList() {
           response = await response.json();
       
       let new_result = response.filter(x => x);
+      console.log(new_result);
       return dispatch({ type: types.FETCH, eventList: new_result });//response
 
   }

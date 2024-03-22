@@ -21,11 +21,9 @@ export function fetchGroupByQuantumList(idQuantum) {
        const route  = `${host}/listgroup/index.php?id_quantum='${idQuantum}'`;
        console.log(route);
        let response = await fetch(route);
-           response = await response.json();
- 
-       let new_result = response.filter(x => x);
-       
-       return dispatch({ type: types.FETCH_BY_QUANTUM, groupByQuantumList: new_result });//response
+           response = await response.json(); 
+       let new_result = response.filter(x => x);       
+       return dispatch({ type: types.FETCH_BY_QUANTUM, groupByQuantumList: new_result });;
  
    }
  }

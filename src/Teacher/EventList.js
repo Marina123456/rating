@@ -18,24 +18,24 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import dayjs from 'dayjs';
 import 'dayjs/locale/de';
 
-import TopBar from './Details/TopBar.js';
+import TopBar from '../Details/TopBar.js';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect }from 'react';
 
-import { fetchEventList } from './store/event/actions';
-import { addNewEvent } from './store/event/actions';
-import { fetchStatusList } from './store/status/actions';
-import { fetchLevelList } from './store/level/actions';
-import { fetchTypeList } from './store/type/actions';
+import { fetchEventList } from '../store/event/actions.js';
+import { addNewEvent } from '../store/event/actions.js';
+import { fetchStatusList } from '../store/status/actions.js';
+import { fetchLevelList } from '../store/level/actions.js';
+import { fetchTypeList } from '../store/type/actions.js';
 
 
 
 
 export default function EventList() {
   const dispatch = useDispatch();
-  console.log(useSelector((state)=>state.event.eventList));
-  const rows =useSelector((state)=>state.event.eventList);
+  //console.log(useSelector((state)=>state.event.eventList));
+  let rows =useSelector((state)=>state.event.eventList);
   const statusList = useSelector((state)=>state.status.statusList);
 
   const levelList = useSelector((state)=>state.level.levelList);
@@ -77,8 +77,19 @@ export default function EventList() {
       setisShowFormNew(false);
     else setisShowFormNew(true);
   }
-
-  const handleAddNewEvent=() => {
+  const clearFields = () => {
+    setisShowFormNew(false);
+    setStatusNew('');
+    setLevelNew('');
+    setTypeNew('');
+    setPreventEvent('');
+    
+    setNameEvetnNew('');
+    setDateFrom(dayjs());
+    setDateTo(dayjs());
+  }
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const handleAddNewEvent= async () => {
     let newEvent = {
       eventName: nameEvetnNew,
       id_type:typeNew,
@@ -89,7 +100,12 @@ export default function EventList() {
       id_previousEvent: preventEventNew
     }
     dispatch(addNewEvent(newEvent));
-
+    console.log('ss1');
+    clearFields();
+    await sleep(500);
+    console.log('ss2');
+    dispatch(fetchEventList());
+    
   }
   dayjs.locale('de')
   return (
